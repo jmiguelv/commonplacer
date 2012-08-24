@@ -2,6 +2,18 @@
 
 {% block title %}{{ block.super }} {{ edition.title }}{% endblock %}
 
+{% block extra_style %}
+<style>
+  span.lg {
+    float: right;
+    font-size: 12px;
+  }
+  span.ln {
+    font-size: 10px;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <h3>{{ edition.title }}</h3>
 <h5>by <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a></h5>
