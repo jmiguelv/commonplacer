@@ -202,7 +202,7 @@ FILEBROWSER_DIRECTORY = MEDIA_ROOT
 GRAPPELLI_ADMIN_TITLE = 'Commonplacer'
 
 # Grappelli Dashboard
-GRAPPELLI_INDEX_DASHBOARD = 'commonplacer.dashboard.CustomIndexDashboard'
+GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
 # South
 SOUTH_TESTS_MIGRATE = False
