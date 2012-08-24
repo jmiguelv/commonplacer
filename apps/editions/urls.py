@@ -9,6 +9,6 @@ urlpatterns = patterns('',
             DetailView.as_view(
                 model=Edition,
                 template_name='editions/detail.html')),
-            url(r'^tag/(\w+)/$', TagEditionListView.as_view()),
-            url(r'^author/(\w+)/$', AuthorEditionListView.as_view()),
-            )
+        url(r'^tag/(\w+)/$', TagEditionListView.as_view()),
+        url(r'^author/(\w+)/$', AuthorEditionListView.as_view()),
+        )

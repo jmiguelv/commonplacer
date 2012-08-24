@@ -129,7 +129,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-        #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+        'django.contrib.staticfiles.finders.DefaultStorageFinder',
         )
 
 # Package/module name to import the root urlpatterns from for the project.
@@ -167,6 +167,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
         'django.contrib.auth.context_processors.auth',
         'django.core.context_processors.request',
         'django.core.context_processors.i18n',
+        'django.core.context_processors.static',
         'django.contrib.messages.context_processors.messages',
         )
 

@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} Editions{% endblock %}
+
+{% block content %}
 <h3>
   Editions
   {% if facet %}
@@ -5,11 +10,6 @@
   {% endif %}
 </h3>
 {% if editions_list %}
-<a href="/editions/">All Editions</a>
-{% if not user.is_anonymous %}
-<a href="/editions/author/{{ user }}/">My Editions</a>
-<span> ({{ user }})</span>
-{% endif %}
 <dl>
   {% for edition in editions_list %}
   <dt>
@@ -28,3 +28,5 @@
 {% else %}
 <p>No editions are available.</p>
 {% endif %}
+
+{% endblock %}

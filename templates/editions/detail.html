@@ -1,4 +1,8 @@
-<a href="/editions/">All Editions</a>
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} {{ edition.title }}{% endblock %}
+
+{% block content %}
 <h3>{{ edition.title }}</h3>
 <h5>by <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a></h5>
 
@@ -8,3 +12,5 @@
 {% for tag in edition.tags.all %}
 <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
 {% endfor %}
+
+{% endblock %}
