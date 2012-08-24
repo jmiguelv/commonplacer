@@ -33,7 +33,6 @@
   </head>
 
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -44,12 +43,16 @@
           </a>
           <a class="brand" href="/">Commonplacer</a>
           <div class="nav-collapse collapse">
+            {% if not user.is_anonymous %}
+            <p class="navbar-text pull-right">
+            Logged in as <a href="/admin/" class="navbar-link">{{ user }}</a>
+            </p>
+            {% endif %}
             <ul class="nav">
               <li class="active"><a href="/">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><a href="/help/">Help</a></li>
-              <li><a href="/admin/">Edit</a></li>
               <li><a href="/editions/">Editions</a></li>
               {% if not user.is_anonymous %}
               <li><a href="/editions/author/{{ user }}/">My Editions</a></li>

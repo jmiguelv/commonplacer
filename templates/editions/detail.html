@@ -7,22 +7,35 @@
   span.lg {
     float: right;
     font-size: 12px;
+    margin-right: 180px;
   }
   span.ln {
     font-size: 10px;
+    position: relative;
+    right: 3em;
   }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
 <h3>{{ edition.title }}</h3>
-<h5>by <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a></h5>
+<h6>by
+  <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a>,
+  {{edition.modified }}, {{ edition.status }}
+</h6>
+</div>
 
-{{ edition.text|safe }}
+<div class="offset1">
+  {{ edition.text|safe }}
+</div>
 
-<p>{{edition.modified }}, {{ edition.status }}</p>
-{% for tag in edition.tags.all %}
-<a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
-{% endfor %}
-
+<h5>Tags</h5>
+<ul class="pagination">
+  {% for tag in edition.tags.all %}
+  <li>
+  <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}
