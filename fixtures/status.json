@@ -1,0 +1,1 @@
+[{"pk": 3, "model": "editions.status", "fields": {"name": "complete", "modified": "2012-04-15 17:30:39", "created": "2012-04-15 17:30:39"}}, {"pk": 1, "model": "editions.status", "fields": {"name": "draft", "modified": "2012-04-15 17:30:21", "created": "2012-04-15 17:30:21"}}]

@@ -1,0 +1,30 @@
+<h3>
+  Editions
+  {% if facet %}
+  by {{ facet }}: {{ facet_value }}
+  {% endif %}
+</h3>
+{% if editions_list %}
+<a href="/editions/">All Editions</a>
+{% if not user.is_anonymous %}
+<a href="/editions/author/{{ user }}/">My Editions</a>
+<span> ({{ user }})</span>
+{% endif %}
+<dl>
+  {% for edition in editions_list %}
+  <dt>
+  <a href="/editions/{{ edition.id }}/">{{ edition.title }}</a>
+  <span> by </span>
+  <a href="/editions/author/{{ edition.author }}/">{{ edition.author }}</a>
+  </dt>
+  <dd>
+  {% for tag in edition.tags.all %}
+  <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+  {% endfor %}
+  </dd>
+  <dd>{{ edition.modified }}</dd>
+  {% endfor %}
+</dl>
+{% else %}
+<p>No editions are available.</p>
+{% endif %}

@@ -1,0 +1,10 @@
+<a href="/editions/">All Editions</a>
+<h3>{{ edition.title }}</h3>
+<h5>by <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a></h5>
+
+{{ edition.text|safe }}
+
+<p>{{edition.modified }}, {{ edition.status }}</p>
+{% for tag in edition.tags.all %}
+<a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+{% endfor %}
