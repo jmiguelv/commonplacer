@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
+from django.views.generic.edit import UpdateView
+from forms import ClassroomForm
 from models import Classroom, Edition
 
 
@@ -14,6 +16,11 @@ class ClassroomListView(ListView):
 
     def get_queryset(self):
         return Classroom.objects.all()
+
+
+class ClassroomUpdateView(UpdateView):
+    model = Classroom
+    template_name = 'editions/classrooms/form.html'
 
 
 class TagEditionListView(ListView):

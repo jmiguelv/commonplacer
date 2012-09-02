@@ -1,7 +1,9 @@
 from django.conf.urls.defaults import patterns, url
 from django.views.generic import DetailView
 from models import Classroom, Edition
-from views import AuthorEditionListView, ClassroomListView, EditionListView, \
+from views import AuthorEditionListView, \
+        ClassroomListView, ClassroomUpdateView, \
+        EditionListView, \
         TagEditionListView
 
 urlpatterns = patterns('',
@@ -16,4 +18,6 @@ urlpatterns = patterns('',
             url(r'^classrooms/(?P<pk>\d+)/$', DetailView.as_view(
                 model=Classroom,
                 template_name='editions/classrooms/detail.html')),
+            url(r'^classrooms/(?P<pk>\d+)/edit$',
+                ClassroomUpdateView.as_view()),
             )
