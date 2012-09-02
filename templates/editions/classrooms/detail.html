@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ block.super }} {{ classroom.name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h3>{{ classroom.name }}</h3>
+</div>
+
+<div class="offset1">
+</div>
+
+<h5>Leaders</h5>
+<ul>
+    <li>
+    <a href="/editions/author/{{ classroom.leader }}/">{{ classroom.leader }}</a>
+    </li>
+    {% for leader in classroom.other_leaders.all %}
+    <li>
+    <a href="/editions/author/{{ leader }}/">{{ leader }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<h5>Participants</h5>
+<ul>
+    {% for participant in classroom.participants.all %}
+    <li>
+    <a href="/editions/author/{{ participant }}/">{{ participant }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
