@@ -1,7 +1,19 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
-from models import Edition
+from models import Classroom, Edition
+
+
+class ClassroomListView(ListView):
+    context_object_name = 'classrooms_list'
+    template_name = 'editions/classrooms/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ClassroomListView, self).get_context_data(**kwargs)
+        return context
+
+    def get_queryset(self):
+        return Classroom.objects.all()
 
 
 class TagEditionListView(ListView):
