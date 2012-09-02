@@ -3,6 +3,9 @@
 # Databases
 *.db
 
+# Migrations
+migrations
+
 # Packages
 *.egg
 *.egg-info
