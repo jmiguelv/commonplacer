@@ -4,38 +4,56 @@
 
 {% block extra_style %}
 <style>
-  span.lg {
-    float: right;
-    font-size: 12px;
-    margin-right: 180px;
-  }
-  span.ln {
-    font-size: 10px;
-    position: relative;
-    right: 3em;
-  }
+    .edition {
+        border-left: 3ex solid #eee;
+        position: relative;
+    }
+    .edition p {
+        counter-reset: linenumbers;
+    }
+    .edition p div:before {
+        color: #aaa;
+        content: counter(linenumbers);
+        counter-increment: linenumbers;
+        left: -3ex;
+        position: absolute;
+        text-align: right;
+        width: 2.5ex;
+    }
+    span.lg {
+        float: right;
+        font-size: 12px;
+        margin-right: 180px;
+    }
+    span.ln {
+        font-size: 10px;
+        position: relative;
+        right: 3em;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
-<h3>{{ edition.title }}</h3>
-<h6>by
-  <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a>,
-  {{edition.modified }}, {{ edition.status }}
-</h6>
+    <h1>{{ edition.title }}</h1>
+    <small>by
+        <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a>,
+        {{edition.modified }}, {{ edition.status }}
+    </small>
 </div>
 
 <div class="offset1">
-  {{ edition.text|safe }}
+    <div class="edition">
+        {{ edition.text|safe }}
+    </div>
 </div>
 
 <h5>Tags</h5>
 <ul class="pagination">
-  {% for tag in edition.tags.all %}
-  <li>
-  <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
-  </li>
-  {% endfor %}
+    {% for tag in edition.tags.all %}
+    <li>
+    <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+    </li>
+    {% endfor %}
 </ul>
 {% endblock %}

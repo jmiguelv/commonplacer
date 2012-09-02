@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="page-header">
-    <h3>Classrooms</h3>
+    <h1>Classrooms</h1>
 </div>
 
 {% if classrooms_list %}
@@ -12,11 +12,12 @@
     {% for classroom in classrooms_list %}
     <dt>
     <a href="{{ classroom.id }}/">{{ classroom.name }}</a>
+    <span>(</span><a href="/editions/author/{{ classroom.leader }}/">{{ classroom.leader }}</a></span>)</span>
     </dt>
-    <dd>{{ classroom.leader }}</dd>
+    <dd>{{ classroom.description }}</dd>
     {% endfor %}
 </dl>
 {% else %}
-<p>No editions are available.</p>
+<p>No classrooms are available.</p>
 {% endif %}
 {% endblock %}

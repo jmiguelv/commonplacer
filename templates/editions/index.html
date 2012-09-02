@@ -4,29 +4,29 @@
 
 {% block content %}
 <div class="page-header">
-<h3>
-  Editions
-  {% if facet %}
-  by {{ facet }}: {{ facet_value }}
-  {% endif %}
-</h3>
+    <h1>Editions</h1>
+    <small>
+        {% if facet %}
+        by {{ facet }}: {{ facet_value }}
+        {% endif %}
+    </small>
 </div>
 
 {% if editions_list %}
 <dl>
-  {% for edition in editions_list %}
-  <dt>
-  <a href="/editions/{{ edition.id }}/">{{ edition.title }}</a>
-  <span> by </span>
-  <a href="/editions/author/{{ edition.author }}/">{{ edition.author }}</a>,
-  {{ edition.modified }}
-  </dt>
-  <dd>
-  {% for tag in edition.tags.all %}
-  <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
-  {% endfor %}
-  </dd>
-  {% endfor %}
+    {% for edition in editions_list %}
+    <dt>
+    <a href="/editions/{{ edition.id }}/">{{ edition.title }}</a>
+    <span> by </span>
+    <a href="/editions/author/{{ edition.author }}/">{{ edition.author }}</a>,
+    {{ edition.modified }}
+    </dt>
+    <dd>
+    {% for tag in edition.tags.all %}
+    <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+    {% endfor %}
+    </dd>
+    {% endfor %}
 </dl>
 {% else %}
 <p>No editions are available.</p>
