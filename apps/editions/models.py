@@ -56,6 +56,8 @@ models.signals.post_save.connect(user_post_save, sender=User)
 class Classroom(models.Model):
     name = models.CharField(max_length=256)
     leader = models.ForeignKey(UserProfile, related_name="leader_classrooms")
+    other_leaders = models.ManyToManyField(UserProfile,
+            related_name='other_leaders_classrooms')
     participants = models.ManyToManyField(UserProfile,
             related_name='participant_classrooms')
     comments = models.TextField(blank=True, null=True)
@@ -100,6 +102,7 @@ class Status(models.Model):
 class Edition(models.Model):
     author = models.ForeignKey(User, editable=False)
     title = models.CharField(max_length=256)
+    classroom = models.ForeignKey(Classroom, blank=True, null=True)
     status = models.ForeignKey(Status)
     permission = models.ForeignKey(Permission)
     text = models.TextField()
