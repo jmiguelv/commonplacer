@@ -54,13 +54,13 @@ models.signals.post_save.connect(user_post_save, sender=User)
 
 
 class Classroom(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
+    description = models.TextField()
     leader = models.ForeignKey(UserProfile, related_name="leader_classrooms")
-    other_leaders = models.ManyToManyField(UserProfile,
+    other_leaders = models.ManyToManyField(UserProfile, blank=True, null=True,
             related_name='other_leaders_classrooms')
-    participants = models.ManyToManyField(UserProfile,
+    participants = models.ManyToManyField(UserProfile, blank=True, null=True,
             related_name='participant_classrooms')
-    comments = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     modified = models.DateTimeField(auto_now=True, auto_now_add=True,
             editable=False)
