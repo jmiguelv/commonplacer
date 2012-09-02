@@ -11,29 +11,9 @@ from tinymce.widgets import TinyMCE
 class ClassroomAdmin(admin.ModelAdmin):
     model = Classroom
 
-    filter_horizontal = ['participants']
+    filter_horizontal = ['other_leaders', 'participants']
     list_display = ['name', 'leader', 'created', 'modified']
     list_display_links = ['name', 'leader', 'created', 'modified']
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'leader':
-            group = Group.objects.get(name=settings.EDITIONS_GROUP_LEADERS)
-            user_set = group.user_set.all()
-            kwargs['queryset'] = UserProfile.objects.filter(user__in=user_set)
-
-        return super(ClassroomAdmin,
-                self).formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        participants = settings.EDITIONS_GROUP_PARTICIPANTS
-
-        if db_field.name == participants:
-            group = Group.objects.get(name=participants)
-            user_set = group.user_set.all()
-            kwargs['queryset'] = UserProfile.objects.filter(user__in=user_set)
-
-        return super(ClassroomAdmin,
-                self).formfield_for_manytomany(db_field, request, **kwargs)
 
 
 class FeedbackInline(admin.StackedInline):
@@ -67,6 +47,15 @@ class EditionAdmin(admin.ModelAdmin):
             return forms.CharField(widget=TinyMCE())
         return super(EditionAdmin, self).formfield_for_dbfield(db_field,
                 **kwargs)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'classroom':
+            group = Group.objects.get(name=settings.EDITIONS_GROUP_LEADERS)
+            user_set = group.user_set.all()
+            kwargs['queryset'] = UserProfile.objects.filter(user__in=user_set)
+
+        return super(ClassroomAdmin,
+                self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def queryset(self, request):
         return Edition.get_admin_queryset(request.user)
