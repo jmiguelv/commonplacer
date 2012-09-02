@@ -50,12 +50,11 @@ class EditionAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'classroom':
-            group = Group.objects.get(name=settings.EDITIONS_GROUP_LEADERS)
-            user_set = group.user_set.all()
-            kwargs['queryset'] = UserProfile.objects.filter(user__in=user_set)
+            user = request.user
+            kwargs['queryset'] = Classroom.objects.filter(participants=user)
 
-        return super(ClassroomAdmin,
-                self).formfield_for_foreignkey(db_field, request, **kwargs)
+        return super(EditionAdmin, self).formfield_for_foreignkey(db_field,
+                request, **kwargs)
 
     def queryset(self, request):
         return Edition.get_admin_queryset(request.user)
