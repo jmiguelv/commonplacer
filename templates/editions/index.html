@@ -16,14 +16,14 @@
 <dl>
     {% for edition in editions_list %}
     <dt>
-    <a href="/editions/{{ edition.id }}/">{{ edition.title }}</a>
+    <a href="/edition/{{ edition.id }}/">{{ edition.title }}</a>
     <span> by </span>
-    <a href="/editions/author/{{ edition.author }}/">{{ edition.author }}</a>,
+    <a href="/edition/author/{{ edition.author }}/">{{ edition.author }}</a>,
     {{ edition.modified }}
     </dt>
     <dd>
     {% for tag in edition.tags.all %}
-    <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+    <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
     {% endfor %}
     </dd>
     {% endfor %}

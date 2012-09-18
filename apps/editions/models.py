@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db import models
 from taggit.managers import TaggableManager
 
@@ -71,6 +72,9 @@ class Classroom(models.Model):
     def __unicode__(self):
         return u'%s (%s)' % (self.name, self.leader)
 
+    def get_absolute_url(self):
+        return reverse('classroom-detail', kwargs={'pk': self.pk})
+
 
 class Permission(models.Model):
     name = models.CharField(max_length=32)
@@ -102,7 +106,8 @@ class Status(models.Model):
 class Edition(models.Model):
     author = models.ForeignKey(User, editable=False)
     title = models.CharField(max_length=256)
-    classroom = models.ForeignKey(Classroom, blank=True, null=True)
+    classroom = models.ForeignKey(Classroom, blank=True, null=True,
+            related_name='editions')
     status = models.ForeignKey(Status)
     permission = models.ForeignKey(Permission)
     text = models.TextField()

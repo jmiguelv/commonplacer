@@ -1,9 +1,56 @@
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render_to_response
+from django.template import RequestContext
 from django.views.generic import ListView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from forms import ClassroomForm
 from models import Classroom, Edition
+
+
+def classroom_add(request):
+    if request.method == 'POST':
+        form = ClassroomForm(request.POST)
+        context_data = {'form': form}
+
+        if form.is_valid():
+            classroom = form.save(commit=False)
+            classroom.leader = request.user.get_profile()
+            classroom.save()
+
+            redirect_url = reverse('classroom-view',
+                    kwargs={'pk': classroom.id})
+
+            return HttpResponseRedirect(redirect_url)
+    else:
+        form = ClassroomForm()
+        context_data = {'form': form}
+
+    return render_to_response('editions/classrooms/form.html', context_data,
+            context_instance=RequestContext(request))
+
+
+class ClassroomCreate(CreateView):
+    model = Classroom
+    form_class = ClassroomForm
+    template_name = 'editions/classrooms/form.html'
+
+    def form_valid(self, form):
+        form.instance.leader = self.request.user.get_profile()
+        return super(ClassroomCreate, self).form_valid(form)
+
+
+class ClassroomDelete(DeleteView):
+    model = Classroom
+    template_name = 'editions/classrooms/confirm_delete.html'
+    success_url = reverse_lazy('classroom-list')
+
+
+class ClassroomUpdate(UpdateView):
+    model = Classroom
+    form_class = ClassroomForm
+    template_name = 'editions/classrooms/form.html'
 
 
 class ClassroomListView(ListView):
@@ -16,11 +63,6 @@ class ClassroomListView(ListView):
 
     def get_queryset(self):
         return Classroom.objects.all()
-
-
-class ClassroomUpdateView(UpdateView):
-    model = Classroom
-    template_name = 'editions/classrooms/form.html'
 
 
 class TagEditionListView(ListView):

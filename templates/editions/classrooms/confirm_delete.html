@@ -1,0 +1,25 @@
+{% extends "editions/classrooms/detail.html" %}
+
+{% block title %}{{ block.super }} Delete {{ classroom.name }}?{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h3>Delete {{ classroom.name }}?</h3>
+  <small>{{ classroom.description }}</small>
+  {% if classroom.editions.all %}
+  <p>
+  <span class="label label-important">You can't delete classrooms that have editions.</span>
+  </p>
+  {% endif %}
+</div>
+<form action="" class="form-horizontal" method="post">
+  {% csrf_token %}
+  {% block detail %}{{ block.super }}{% endblock %}
+  <div class="form-actions">
+    {% if not classroom.editions.all %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    {% endif %}
+    <a class="btn" href="..">Cancel</a>
+  </div>
+</form>
+{% endblock %}
