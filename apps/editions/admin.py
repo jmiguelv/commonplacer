@@ -24,7 +24,7 @@ class FeedbackInline(admin.StackedInline):
     inline_classes = ('collapse open',)
 
     def save_model(self, request, obj, form, change):
-        obj.author = request.user
+        obj.author = request.user.get_profile()
         obj.save()
 
 
@@ -50,7 +50,7 @@ class EditionAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'classroom':
-            user = request.user
+            user = request.user.get_profile()
             kwargs['queryset'] = Classroom.objects.filter(participants=user)
 
         return super(EditionAdmin, self).formfield_for_foreignkey(db_field,
@@ -61,10 +61,10 @@ class EditionAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         if not change:
-            obj.author = request.user
+            obj.author = request.user.get_profile()
             obj.save()
         else:
-            if request.user == obj.author:
+            if request.user.get_profile() == obj.author:
                 obj.save()
             else:
                 message = 'You can only change Edition\'s you authored.'
@@ -73,7 +73,7 @@ class EditionAdmin(admin.ModelAdmin):
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
         for instance in instances:
-            instance.author = request.user
+            instance.author = request.user.get_profile()
             instance.save()
         formset.save_m2m()
 

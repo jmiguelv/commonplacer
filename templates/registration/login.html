@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+
+{% block content %}
+{% if form.errors %}
+  <div class="alert alert-error ">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    {{ form.errors }}
+    <span>Your username and password didn't match. Please try again.</span>
+  </div>
+{% endif %}
+
+{{ block.super }}
+{% endblock %}

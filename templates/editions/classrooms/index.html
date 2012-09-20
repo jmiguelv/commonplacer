@@ -3,9 +3,20 @@
 {% block title %}{{ block.super }} Classrooms{% endblock %}
 
 {% block content %}
+{% block messages %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
 <div class="page-header">
-    <h1>Classrooms</h1>
-    <small>Short description about classrooms, what they are for, etc.</small>
+  <h1>Classrooms</h1>
+  <small>Short description about classrooms, what they are for, etc.</small>
 
   {% block actions %}
   <div class="btn-group pull-right">
@@ -16,15 +27,15 @@
 
 {% if classrooms_list %}
 <dl>
-    {% for classroom in classrooms_list %}
-    <dt>
-    <a href="{{ classroom.id }}/">{{ classroom.name }}</a>
-    <span>(</span><a href="/editions/author/{{ classroom.leader }}/">{{ classroom.leader }}</a></span>)</span>
+  {% for classroom in classrooms_list %}
+  <dt>
+  <a href="{{ classroom.id }}/">{{ classroom.name }}</a>
+  <span>(</span><a href="/editions/author/{{ classroom.leader }}/">{{ classroom.leader }}</a></span>)</span>
     </dt>
     <dd>{{ classroom.description }}</dd>
     {% endfor %}
-</dl>
-{% else %}
-<p>No classrooms are available.</p>
-{% endif %}
-{% endblock %}
+  </dl>
+  {% else %}
+  <p>No classrooms are available.</p>
+  {% endif %}
+  {% endblock %}

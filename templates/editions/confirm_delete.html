@@ -1,15 +1,14 @@
-{% extends "editions/classrooms/detail.html" %}
+{% extends "editions/detail.html" %}
 
-{% block title %}{{ block.super }} Delete {{ classroom.name }}?{% endblock %}
+{% block title %}{{ block.super }} Delete {{ edition.title }}?{% endblock %}
 
 {% block content %}
 <div class="page-header">
-  <h3>Delete {{ classroom.name }}?</h3>
-  <small>{{ classroom.description }}</small>
+  <h3>Delete {{ edition.title }}?</h3>
+  <small>{{ edition.status }} {{ edition.permission }} {{ edition.classroom }}</small>
 </div>
 <form action="" class="form-horizontal" method="post">
   {% csrf_token %}
-  {% block detail %}{{ block.super }}{% endblock %}
   <div class="form-actions">
     <button type="submit" class="btn btn-danger">Delete</button>
     <a class="btn" href="..">Cancel</a>

@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
@@ -31,13 +30,6 @@ class ClassroomDelete(DeleteView):
         self.kwargs = kwargs
 
         obj = super(ClassroomDelete, self).get_object()
-
-        if len(obj.editions.all()) > 0:
-            messages.warning(request,
-                    'You can\'t delete classrooms that have editions.')
-            response = HttpResponseRedirect(reverse('classroom-delete',
-                kwargs={'pk': obj.id}))
-
         profile = request.user.get_profile()
 
         if profile == obj.leader or profile in obj.other_leaders.all():
@@ -46,6 +38,12 @@ class ClassroomDelete(DeleteView):
         else:
             messages.error(request,
                     'You don\'t have permissions to delete this classroom.')
+            response = HttpResponseRedirect(reverse('classroom-detail',
+                kwargs={'pk': obj.id}))
+
+        if len(obj.editions.all()) > 0:
+            messages.warning(request,
+                    'You can\'t delete classrooms that have editions.')
             response = HttpResponseRedirect(reverse('classroom-detail',
                 kwargs={'pk': obj.id}))
 
@@ -103,6 +101,56 @@ class EditionCreate(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user.get_profile()
         return super(EditionCreate, self).form_valid(form)
+
+
+class EditionDelete(DeleteView):
+    model = Edition
+    template_name = 'editions/confirm_delete.html'
+    success_url = reverse_lazy('edition-list')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+
+        obj = super(EditionDelete, self).get_object()
+        profile = request.user.get_profile()
+
+        if profile == obj.author:
+            response = super(EditionDelete, self).dispatch(request, *args,
+                    **kwargs)
+        else:
+            messages.error(request,
+                    'You don\'t have permissions to delete this edition.')
+            response = HttpResponseRedirect(reverse('edition-detail',
+                kwargs={'pk': obj.id}))
+
+        return response
+
+
+class EditionUpdate(UpdateView):
+    model = Edition
+    form_class = EditionForm
+    template_name = 'editions/form.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        self.args = args
+        self.kwargs = kwargs
+
+        obj = super(EditionUpdate, self).get_object()
+        profile = request.user.get_profile()
+
+        if profile == obj.author:
+            response = super(EditionUpdate, self).dispatch(request, *args,
+                    **kwargs)
+        else:
+            messages.error(request,
+                    'You don\'t have permissions to change this edition.')
+            response = HttpResponseRedirect(reverse('edition-detail',
+                kwargs={'pk': obj.id}))
+
+        return response
 
 
 class EditionListView(ListView):

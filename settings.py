@@ -201,6 +201,8 @@ GRAPPELLI_ADMIN_TITLE = 'Commonplacer'
 # Grappelli Dashboard
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
+LOGIN_URL = '/login/'
+
 # Messages frameowrk
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
