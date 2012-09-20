@@ -159,8 +159,6 @@ INSTALLED_APPS = (
         'django.contrib.admin',
         'reversion',
         'south',
-        'taggit',
-        'tinymce',
         )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -186,6 +184,8 @@ MIDDLEWARE_CLASSES = (
 # Commonplacer Applications
 INSTALLED_APPS = INSTALLED_APPS + (
         'editions',
+        'taggit',
+        'tinymce',
         )
 
 # Editions
@@ -195,14 +195,14 @@ EDITIONS_GROUP_LEADERS = 'leaders'
 EDITIONS_GROUP_MODERATORS = 'moderators'
 EDITIONS_GROUP_PARTICIPANTS = 'participants'
 
-# Filebrowser
-FILEBROWSER_DIRECTORY = MEDIA_ROOT
-
 # Grappelli
 GRAPPELLI_ADMIN_TITLE = 'Commonplacer'
 
 # Grappelli Dashboard
 GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
+
+# Messages frameowrk
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 # South
 SOUTH_TESTS_MIGRATE = False
@@ -211,7 +211,6 @@ SOUTH_TESTS_MIGRATE = False
 TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, 'tiny_mce')
 TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
 TINYMCE_DEFAULT_CONFIG = {
-        'mode': 'textareas',
         'theme': 'advanced',
         'theme_advanced_fonts': 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
         'paste_auto_cleanup_on_paste': True,

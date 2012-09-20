@@ -37,7 +37,7 @@
 <div class="page-header">
     <h1>{{ edition.title }}</h1>
     <small>by
-        <a href="/editions/author/{{ edition.author }}/">{{ edition.author}}</a>,
+        <a href="/edition/author/{{ edition.author }}/">{{ edition.author}}</a>,
         {{edition.modified }}, {{ edition.status }}
     </small>
 </div>
@@ -52,7 +52,7 @@
 <ul class="pagination">
     {% for tag in edition.tags.all %}
     <li>
-    <a href="/editions/tag/{{ tag }}/">{{ tag }}</a>
+    <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
     </li>
     {% endfor %}
 </ul>

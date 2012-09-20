@@ -6,6 +6,11 @@
 <div class="page-header">
   <h3>Delete {{ classroom.name }}?</h3>
   <small>{{ classroom.description }}</small>
+  {% if classroom.leader != user.get_profile %}
+  <p>
+  <span class="label label-important">You can't delete this classroom.</span>
+  </p>
+  {% endif %}
   {% if classroom.editions.all %}
   <p>
   <span class="label label-important">You can't delete classrooms that have editions.</span>
@@ -16,7 +21,7 @@
   {% csrf_token %}
   {% block detail %}{{ block.super }}{% endblock %}
   <div class="form-actions">
-    {% if not classroom.editions.all %}
+    {% if not classroom.editions.all and classroom.leader == user.get_profile %}
     <button type="submit" class="btn btn-danger">Delete</button>
     {% endif %}
     <a class="btn" href="..">Cancel</a>

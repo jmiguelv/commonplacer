@@ -4,29 +4,37 @@
 
 {% block content %}
 <div class="page-header">
-    <h1>Editions</h1>
-    <small>
-        {% if facet %}
-        by {{ facet }}: {{ facet_value }}
-        {% endif %}
-    </small>
+  <h1>Editions</h1>
+  {% if facet %}
+  <small>
+    by {{ facet }}: {{ facet_value }}
+  </small>
+  {% else %}
+  <small>Short description about edition, what they are for, etc.</small>
+  {% endif %}
+
+  {% block actions %}
+  <div class="btn-group pull-right">
+    <a class="btn btn-small" href="/edition/add/">Add</a>
+  </div>
+  {% endblock %}
 </div>
 
 {% if editions_list %}
 <dl>
-    {% for edition in editions_list %}
-    <dt>
-    <a href="/edition/{{ edition.id }}/">{{ edition.title }}</a>
-    <span> by </span>
-    <a href="/edition/author/{{ edition.author }}/">{{ edition.author }}</a>,
-    {{ edition.modified }}
-    </dt>
-    <dd>
-    {% for tag in edition.tags.all %}
-    <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
-    {% endfor %}
-    </dd>
-    {% endfor %}
+  {% for edition in editions_list %}
+  <dt>
+  <a href="/edition/{{ edition.id }}/">{{ edition.title }}</a>
+  <span> by </span>
+  <a href="/edition/author/{{ edition.author }}/">{{ edition.author }}</a>,
+  {{ edition.modified }}
+  </dt>
+  <dd>
+  {% for tag in edition.tags.all %}
+  <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
+  {% endfor %}
+  </dd>
+  {% endfor %}
 </dl>
 {% else %}
 <p>No editions are available.</p>

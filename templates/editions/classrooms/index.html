@@ -5,6 +5,13 @@
 {% block content %}
 <div class="page-header">
     <h1>Classrooms</h1>
+    <small>Short description about classrooms, what they are for, etc.</small>
+
+  {% block actions %}
+  <div class="btn-group pull-right">
+    <a class="btn btn-small" href="add/">Add</a>
+  </div>
+  {% endblock %}
 </div>
 
 {% if classrooms_list %}

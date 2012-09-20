@@ -11,9 +11,17 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return u'%s' % (self.user)
 
+    def get_classrooms(self):
+        """Returns all the classrooms the current user is associated with."""
+        leader = self.get_leader_classrooms()
+        participant = self.get_participant_classrooms()
+
+        return leader | participant
+
     def get_leader_classrooms(self):
         """Returns all the classrooms the current user is leader of."""
-        return self.leader_classrooms.all()
+        return self.leader_classrooms.all() | \
+                self.other_leaders_classrooms.all()
 
     def get_participant_classrooms(self):
         """Returns all the classrooms the current user is participant in."""
@@ -104,7 +112,7 @@ class Status(models.Model):
 
 
 class Edition(models.Model):
-    author = models.ForeignKey(User, editable=False)
+    author = models.ForeignKey(UserProfile, editable=False)
     title = models.CharField(max_length=256)
     classroom = models.ForeignKey(Classroom, blank=True, null=True,
             related_name='editions')
@@ -122,6 +130,9 @@ class Edition(models.Model):
 
     def __unicode__(self):
         return u'%s' % (self.title)
+
+    def get_absolute_url(self):
+        return reverse('edition-detail', kwargs={'pk': self.pk})
 
     @staticmethod
     def get_admin_queryset(user):
