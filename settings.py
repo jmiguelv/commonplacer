@@ -186,6 +186,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
         'editions',
         'taggit',
         'tinymce',
+        'registration',
         )
 
 # Editions
@@ -205,6 +206,9 @@ LOGIN_URL = '/login/'
 
 # Messages frameowrk
 MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
+
+# Registration
+ACCOUNT_ACTIVATION_DAYS = 3
 
 # South
 SOUTH_TESTS_MIGRATE = False

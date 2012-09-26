@@ -12,10 +12,10 @@ Add edition
 {% block content %}
 <div class="page-header">
   {% if edition %}
-  <h3>{{ edition.title }}</h3>
+  <h1>{{ edition.title }}</h1>
   <small>{{ edition.status }} {{ edition.permission }} {{ edition.classroom }}</small>
   {% else %}
-  <h3>Add edition</h3>
+  <h1>Add edition</h1>
   {% endif %}
 </div>
 <form action="" class="form-horizontal" method="post">

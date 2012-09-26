@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="alert alert-info">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <span>You are now registered. Activation email sent.</span>
+</div>
+
+{{ block.super }}
+{% endblock %}
