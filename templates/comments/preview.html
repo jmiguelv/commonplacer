@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview your comment" %}{% endblock %}
+
+{% block content %}
+{% load comments %}
+<form action="{% comment_form_target %}" class="form-horizontal" method="post">
+  {% csrf_token %}
+  {% if next %}
+  <div>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  {% endif %}
+
+  {% if form.errors %}
+  <h1>{% blocktrans count counter=form.errors|length %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</h1>
+  {% else %}
+  <h1>{% trans "Preview your comment" %}</h1>
+  <blockquote>{{ comment|linebreaks }}</blockquote>
+  <div class="form-actions">
+    {% trans "and" %} <input type="submit" name="submit" class="btn submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
+  </div>
+  {% endif %}
+  {% for field in form %}
+  {% if field.is_hidden %}
+  {{ field }}
+  {% else %}
+  <div class="control-group {% if field.errors %} error {% endif %}"
+    {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+    {% if field.field.required %}
+    <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+    {% else %}
+    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+    {% endif %}
+    <div class="controls">
+      {{ field }}
+      {% if field.errors %}
+      <span class="help-inline">
+        {% for error in field.errors %}
+        {{ error }}
+        {% if not forloop.last %}; {% endif %}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+  <div class="form-actions">
+    <input type="submit" name="submit" class="btn btn-primary submit-post" value="{% trans "Post" %}" />
+    <input type="submit" name="preview" class="btn submit-preview" value="{% trans "Preview" %}" />
+  </div>
+</form>
+{% endblock %}

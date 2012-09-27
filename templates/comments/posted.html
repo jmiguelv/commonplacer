@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Thank you for your comment.</h1>
+<small>
+  <a href="{% url edition-detail pk=comment.object_pk %}">Return to the edition</a>
+</small>
+
+{{ block.super }}
+{% endblock %}
