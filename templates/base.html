@@ -72,13 +72,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">The Commonplacer</a>
+          <a class="brand" href="{% url home %}">The Commonplacer</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="/">Home</a></li>
+              <li><a href="{% url home %}">Home</a></li>
               <li><a href="#about">About </a></li>
-              <li><a href="/edition/">Editions</a></li>
-              <li><a href="/edition/classroom/">Classrooms</a></li>
+              <li><a href="{% url edition-list %}">Editions</a></li>
+              <li><a href="{% url classroom-list %}">Classrooms</a></li>
             </ul>
             <ul class="nav pull-right">
               <li class="dropdown">
@@ -86,7 +86,7 @@
                 <i class="icon-user"></i> {{ user }} <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 {% if not user.is_anonymous %}
-                <li><a href="/edition/author/{{ user }}">My Editions</a></li>
+                <li><a href="{% url edition-author  user %}">My Editions</a></li>
                 <li><a href="#">My Classrooms</a></li>
                 <li class="divider"></li>
                 <li><a href="{% url auth_password_change %}">Change Password</a></li>

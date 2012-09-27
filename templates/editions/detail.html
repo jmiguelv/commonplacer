@@ -1,35 +1,29 @@
 {% extends "base.html" %}
+{% load comments %}
+{% get_comment_count for edition as comment_count %}.
 
 {% block title %}{{ block.super }} {{ edition.title }}{% endblock %}
 
 {% block extra_style %}
 <style>
-  .edition {
-    border-left: 3ex solid #eee;
-    position: relative;
-  }
-  .edition p {
-    counter-reset: linenumbers;
-  }
-  .edition p div:before {
-    color: #aaa;
-    content: counter(linenumbers);
-    counter-increment: linenumbers;
-    left: -3ex;
-    position: absolute;
-    text-align: right;
-    width: 2.5ex;
-  }
-  span.lg {
-    float: right;
-    font-size: 12px;
-    margin-right: 180px;
-  }
-  span.ln {
-    font-size: 10px;
-    position: relative;
-    right: 3em;
-  }
+.edition {
+  border-left: 3ex solid #eee;
+  position: relative;
+}
+span.lg {
+  float: right;
+  font-size: 12px;
+  margin-right: 180px;
+}
+span.ln {
+  font-size: 10px;
+  position: relative;
+  right: 1.5em;
+  padding: 0;
+}
+#id_honeypot {
+  display: none;
+}
 </style>
 {% endblock %}
 
@@ -75,7 +69,8 @@
   </div>
 </div>
 
-<h5>Tags</h5>
+<hr />
+<h3>Tags</h3>
 <ul class="pagination">
   {% for tag in edition.tags.all %}
   <li>
@@ -83,4 +78,48 @@
   </li>
   {% endfor %}
 </ul>
+
+<hr />
+<h3>Comments</h3>
+{% get_comment_count for edition as comment_count %}
+<small>{{ comment_count }} comments have been posted.</small>
+{% render_comment_list for edition %}
+
+{% if not user.is_anonymous %}
+<hr />
+<h4>Post a comment</h4>
+{% get_comment_form for edition as form %}
+<form action="{% comment_form_target %}" class="form-horizontal" method="post">
+  {% csrf_token %}
+  {% for field in form %}
+  {% if field.is_hidden %}
+  {{ field }}
+  {% else %}
+  <div class="control-group {% if field.errors %} error {% endif %}"
+    {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+    {% if field.field.required %}
+    <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+    {% else %}
+    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+    {% endif %}
+    <div class="controls">
+      {{ field }}
+      {% if field.errors %}
+      <span class="help-inline">
+        {% for error in field.errors %}
+        {{ error }}
+        {% if not forloop.last %}; {% endif %}
+        {% endfor %}
+      </span>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+  <div class="form-actions">
+    <button name="post" type="submit" class="btn btn-primary">Post</button>
+    <button name="preview" type="submit" class="btn">Preview</button>
+  </div>
+</form>
+{% endif %}
 {% endblock %}

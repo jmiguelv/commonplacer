@@ -7,14 +7,15 @@ class ClassroomForm(ModelForm):
     class Meta:
         model = Classroom
         exclude = ['leader']
-        widgets = {'description': Textarea(attrs={'cols': 80, 'rows': 2}), }
+        widgets = {'description': Textarea(attrs={'cols': 80,
+            'rows': 2}), }
 
 
 class EditionForm(ModelForm):
     class Meta:
         model = Edition
         exclude = ['author']
-        fields = ['title', 'status', 'classroom', 'permission', 'tags', 'text',
-                'comments']
+        fields = ['title', 'status', 'classroom', 'permission', 'tags',
+                'text', 'comments']
         widgets = {'text': TinyMCE(attrs={'cols': 80, 'rows': 10}),
                 'comments': Textarea(attrs={'cols': 80, 'rows': 2}), }

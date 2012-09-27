@@ -5,12 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-        #url(r'^login/$',
-            #'django.contrib.auth.views.login', name='login'),
-        #url(r'^logout/$',
-            #'django.contrib.auth.views.logout', name='logout'),
         url(r'^accounts/',
             include('registration.backends.default.urls')),
+        url(r'^comments/', include('django.contrib.comments.urls')),
 
         url(r'^edition/', include('editions.urls')),
 
@@ -20,5 +17,6 @@ urlpatterns = patterns('',
 
         url(r'^tinymce/', include('tinymce.urls')),
 
-        url('^$', direct_to_template, {'template': 'index.html'}),
+        url('^$', direct_to_template, {'template': 'index.html'},
+            name='home'),
         )
