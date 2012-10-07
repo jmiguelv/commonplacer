@@ -112,7 +112,8 @@ class Status(models.Model):
 
 
 class Edition(models.Model):
-    author = models.ForeignKey(UserProfile, editable=False)
+    author = models.ForeignKey(UserProfile, editable=False,
+            related_name='author_editions')
     title = models.CharField(max_length=256)
     classroom = models.ForeignKey(Classroom, blank=True, null=True,
             related_name='editions')
