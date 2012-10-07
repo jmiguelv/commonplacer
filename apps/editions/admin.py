@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.models import Group
-from models import Classroom, Edition, Feedback, Permission, Status, \
+from models import Classroom, Edition, Permission, Status, \
         UserProfile
 from tinymce.widgets import TinyMCE
 
@@ -16,22 +16,9 @@ class ClassroomAdmin(admin.ModelAdmin):
     list_display_links = ['name', 'leader', 'created', 'modified']
 
 
-class FeedbackInline(admin.StackedInline):
-    model = Feedback
-
-    classes = ('collapse open',)
-    extra = 0
-    inline_classes = ('collapse open',)
-
-    def save_model(self, request, obj, form, change):
-        obj.author = request.user.get_profile()
-        obj.save()
-
-
 class EditionAdmin(admin.ModelAdmin):
     model = Edition
 
-    inlines = [FeedbackInline]
     list_display = ['author', 'title', 'status', 'permission', 'created',
             'modified']
     list_display_links = ['author', 'title', 'status', 'permission', 'created',
@@ -78,14 +65,6 @@ class EditionAdmin(admin.ModelAdmin):
         formset.save_m2m()
 
 
-class FeedbackAdmin(admin.ModelAdmin):
-    model = Feedback
-
-    list_display = ['author', 'edition', 'created', 'modified']
-    list_display_links = ['author', 'edition', 'created', 'modified']
-    search_fields = ['text']
-
-
 class LogEntryAdmin(admin.ModelAdmin):
     list_display = ['action_time', 'user', 'content_type', 'change_message',
             'is_addition', 'is_change', 'is_deletion']
@@ -123,7 +102,6 @@ class StatusAdmin(admin.ModelAdmin):
 
 admin.site.register(Classroom, ClassroomAdmin)
 admin.site.register(Edition, EditionAdmin)
-admin.site.register(Feedback, FeedbackAdmin)
 admin.site.register(LogEntry, LogEntryAdmin)
 admin.site.register(Permission, PermissionAdmin)
 admin.site.register(Status, StatusAdmin)

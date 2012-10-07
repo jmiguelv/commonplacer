@@ -176,18 +176,3 @@ class Edition(models.Model):
                     Edition.objects.exclude(permission__name='private')
 
         return queryset
-
-
-class Feedback(models.Model):
-    edition = models.ForeignKey(Edition)
-    author = models.ForeignKey(User, editable=False)
-    text = models.TextField()
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    modified = models.DateTimeField(auto_now=True, auto_now_add=True,
-            editable=False)
-
-    class Meta:
-        verbose_name_plural = 'Feedback'
-
-    def __unicode__(self):
-        return u'%s. %s' % (self.author, self.edition)
