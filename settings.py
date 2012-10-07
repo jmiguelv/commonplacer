@@ -112,11 +112,6 @@ MEDIA_URL = '/media/'
 # Example: '/home/media/media.lawrence.com/media/'
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, MEDIA_URL.strip('/'))
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: 'http://foo.com/media/', '/media/'.
-ADMIN_MEDIA_PREFIX = STATIC_URL + 'grappelli/'
-
 # Additional locations of static files
 STATICFILES_DIRS = (
         # Put strings here, like '/home/html/static' or 'C:/www/django/static'.
