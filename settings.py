@@ -152,7 +152,6 @@ INSTALLED_APPS = (
         'grappelli.dashboard',
         'grappelli',
         'django.contrib.admin',
-        'reversion',
         'south',
         )
 
