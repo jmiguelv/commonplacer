@@ -62,6 +62,7 @@ Add classroom
 <script src="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.min.js"></script>
 <script src="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.filter.min.js"></script>
 <script type="text/javascript">
-$("select").multiselect().multiselectfilter();
+$("select").multiselect({selectedText: "# users selected",
+    noneSelectedText: "Select users"}).multiselectfilter();
 </script>
 {% endblock %}
