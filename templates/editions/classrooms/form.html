@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block extra_style %}
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />
+<link href="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.css" rel="stylesheet" />
+<link href="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.filter.css" rel="stylesheet" />
+{% endblock %}
+
 {% block title %}
 {{ block.super }}
 {% if classroom %}
@@ -11,41 +17,51 @@ Add classroom
 
 {% block content %}
 <div class="page-header">
-  {% if classroom %}
-  <h1>{{ classroom.name }}</h1>
-  <small>{{ classroom.description }}</small>
-  {% else %}
-  <h1>Add classroom</h1>
-  {% endif %}
+    {% if classroom %}
+    <h1>{{ classroom.name }}</h1>
+    <small>{{ classroom.description }}</small>
+    {% else %}
+    <h1>Add classroom</h1>
+    {% endif %}
 </div>
 <form action="" class="form-horizontal" method="post">
-  {% csrf_token %}
-  {% for field in form %}
-  <div class="control-group {% if field.errors %} error {% endif %}">
-    {% if field.field.required %}
-    <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
-    {% else %}
-    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-    {% endif %}
-    <div class="controls">
-      {{ field }}
-      {% if field.errors %}
-      <span class="help-inline">
-        {% for error in field.errors %}
-        {{ error }}
-        {% if not forloop.last %}; {% endif %}
-        {% endfor %}
-      </span>
-      {% endif %}
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="control-group {% if field.errors %} error {% endif %}">
+        {% if field.field.required %}
+        <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+        {% else %}
+        <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+        {% endif %}
+        <div class="controls">
+            {{ field }}
+            {% if field.errors %}
+            <span class="help-inline">
+                {% for error in field.errors %}
+                {{ error }}
+                {% if not forloop.last %}; {% endif %}
+                {% endfor %}
+            </span>
+            {% endif %}
+        </div>
     </div>
-  </div>
-  {% endfor %}
-  <div class="form-actions">
-    <button type="submit" class="btn btn-primary">Save</button>
-    {% if classroom %}
-    <a class="btn btn-danger" href="../delete/">Delete</a>
-    {% endif %}
-    <a class="btn" href="..">Cancel</a>
-  </div>
+    {% endfor %}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        {% if classroom %}
+        <a class="btn btn-danger" href="../delete/">Delete</a>
+        {% endif %}
+        <a class="btn" href="..">Cancel</a>
+    </div>
 </form>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.min.js"></script>
+<script src="{{ STATIC_URL }}jquery.multiselect/jquery.multiselect.filter.min.js"></script>
+<script type="text/javascript">
+$("select").multiselect().multiselectfilter();
+</script>
 {% endblock %}
