@@ -43,9 +43,6 @@ class EditionAdmin(admin.ModelAdmin):
         return super(EditionAdmin, self).formfield_for_foreignkey(db_field,
                 request, **kwargs)
 
-    def queryset(self, request):
-        return Edition.get_admin_queryset(request.user)
-
     def save_model(self, request, obj, form, change):
         if not change:
             obj.author = request.user.get_profile()

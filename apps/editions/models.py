@@ -136,32 +136,6 @@ class Edition(models.Model):
         return reverse('edition-detail', kwargs={'pk': self.pk})
 
     @staticmethod
-    def get_admin_queryset(user):
-        """Returns a queryset to be used in the admin interface. The objects in
-        the queryset depend on the group the user belongs to. Site admins and
-        moderators can view all the editions; leaders can view all the editions
-        from the students in their classrooms; and participants can only view
-        their own editions."""
-        queryset = Edition.objects
-        profile = user.get_profile()
-
-        if user.is_superuser or profile.is_moderator():
-            queryset = queryset.all()
-        elif profile.is_leader():
-            classrooms = profile.get_leader_classrooms()
-            participant_set = set()
-
-            for classroom in classrooms:
-                for participant in classroom.participants.all():
-                    participant_set.add(participant)
-
-            queryset = queryset.filter(author__in=participant_set)
-        elif profile.is_participant():
-            queryset = queryset.filter(author=user)
-
-        return queryset
-
-    @staticmethod
     def get_queryset(user):
         """Returns a queryset to be used in the public part of the site. If the
         user is anonymous (non-authenticated) it can only view public editions.
@@ -172,8 +146,6 @@ class Edition(models.Model):
         if user.is_anonymous():
             queryset = Edition.objects.filter(permission__name='public')
         else:
-            queryset = Edition.get_admin_queryset(user)
-            queryset = queryset | \
-                    Edition.objects.exclude(permission__name='private')
+            queryset = Edition.objects.exclude(permission__name='private')
 
         return queryset
