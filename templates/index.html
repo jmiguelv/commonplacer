@@ -2,10 +2,10 @@
 
 {% block extra_style %}
 <style>
-  .hero-unit {
-    background-color: #9d0714;
-    color: #eeeeee;
-  }
+.hero-unit {
+  background-color: #9d0714;
+  color: #eeeeee;
+}
 </style>
 {% endblock %}
 
@@ -19,30 +19,66 @@
 <div class="row-fluid">
   <div class="span3">
     <h2>About</h2>
-    <p>The Commonplacer project...</p>
-    <p>
-    <a class="btn" href="#">View details »</a>
-    </p>
+    <p>The Commonplacer is a web-based tool that allows you to edit, adapt, and
+    rewrite texts to create your own editions. The Commonplacer takes its name
+    from the practice of <i>commonplacing</i>, which was a way of both making and
+    reading books in the early modern period. Readers would extract passages or
+    key phrases from books and write them down in their own commonplace books,
+    often organised under headings, as a record for future use.</p>
   </div>
   <div class="span3">
     <h2>Instructions</h2>
-    <p>The Commonplacer project...</p>
+    <p>These instructions will help you to access and use the features of the
+    Commonplacer. The PDF includes instructions on how to create editions, how
+    to add line numbers, glosses and notes, how to add comments, how to style
+    your editions, and how to make your editions private or public.</p>
+  </div>
+  <div class="span3">
+    <h2>Editions</h2>
+    <p>The Commonplacer allows you to create your own editions of texts. It is
+    designed to work in conjunction with
+    <a target="_miscellanies"
+      href="http://versemiscellaniesonline.bodleian.ox.ac.uk/">Verse Miscellanies Online</a>
+    a critical edition of early modern poetry anthologies, which are themselves
+    the work of editors and compilers. The Commonplacer will allow you to follow
+    in the footsteps of these early modern editors to compile and edit your own
+    anthologies, and so create your own <i>Paradise of Dainty Devices</i>. It
+    can also be used independently from
+    <a target="_miscellanies"
+      href="http://versemiscellaniesonline.bodleian.ox.ac.uk/">Verse Miscellanies Online</a>.</p>
+  </div>
+  <div class="span3">
+    <h2>Classrooms</h2>
+    <p>The Commonplacer allows you to create virtual classrooms. You can enrol
+    participants in classrooms from a list of registered users. The classroom
+    can be kept in the private domain or made public, and the classroom leader
+    can comment on the editions created by participants. This tool is designed
+    to facilitate the use of
+    <a target="_miscellanies"
+      href="http://versemiscellaniesonline.bodleian.ox.ac.uk/">Verse Miscellanies Online</a>
+    in the classroom or reading group, although it can also be used with other
+    electronic texts.</p>
+  </div>
+</div>
+<div class="row-fluid">
+  <div class="span3">
+    <p>
+    <a class="btn" href="{% url about %}">More »</a>
+    </p>
+  </div>
+  <div class="span3">
     <p>
     <a class="btn" href="#">Download »</a>
     </p>
   </div>
   <div class="span3">
-    <h2>Editions</h2>
-    <p>The Commonplacer project...</p>
     <p>
-    <a class="btn" href="edition/">View more »</a>
+    <a class="btn" href="{% url edition-list %}">Editions »</a>
     </p>
   </div>
   <div class="span3">
-    <h2>Classrooms</h2>
-    <p>The Commonplacer project...</p>
     <p>
-    <a class="btn" href="edition/classroom/">View more »</a>
+    <a class="btn" href="{% url classroom-list %}">Classrooms »</a>
     </p>
   </div>
 </div>

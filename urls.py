@@ -17,6 +17,8 @@ urlpatterns = patterns('',
 
         url(r'^tinymce/', include('tinymce.urls')),
 
+        url('^about$', direct_to_template, {'template': 'about.html'},
+            name='about'),
         url('^$', direct_to_template, {'template': 'index.html'},
             name='home'),
         )
