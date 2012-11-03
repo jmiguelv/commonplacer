@@ -146,7 +146,8 @@ class Edition(models.Model):
         if user.is_anonymous():
             queryset = Edition.objects.filter(permission__name='public')
         else:
-            mine = Edition.objects.filter(author = user.get_profile())
+            mine = Edition.objects.filter(author=user.get_profile())
             queryset = Edition.objects.exclude(permission__name='private')
+            queryset = mine | queryset
 
-        return mine | queryset
+        return queryset
