@@ -17,5 +17,5 @@ class EditionForm(ModelForm):
         exclude = ['author']
         fields = ['title', 'status', 'classroom', 'permission', 'tags',
                 'text', 'comments']
-        widgets = {'text': TinyMCE(attrs={'cols': 80, 'rows': 10}),
+        widgets = {'text': TinyMCE(attrs={'cols': 80, 'rows': 20}),
                 'comments': Textarea(attrs={'cols': 80, 'rows': 2}), }
