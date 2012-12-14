@@ -2,3 +2,4 @@ django-taggit
 django-tinymce
 django-reversion
 django-registration
+pyjwt

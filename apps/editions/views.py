@@ -1,12 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from forms import ClassroomForm, EditionForm
 from models import Classroom, Edition
+import token
 
 
 class ClassroomCreate(CreateView):
@@ -85,6 +86,11 @@ class ClassroomListView(ListView):
 
     def get_queryset(self):
         return Classroom.objects.all()
+
+
+def get_token(request):
+    t = token.generate_token(request.user.username)
+    return HttpResponse(t)
 
 
 class EditionCreate(CreateView):
