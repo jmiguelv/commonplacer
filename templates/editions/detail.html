@@ -5,24 +5,25 @@
 {% block title %}{{ block.super }} {{ edition.title }}{% endblock %}
 
 {% block extra_style %}
+<link rel="stylesheet" href="http://assets.annotateit.org/annotator/v1.2.5/annotator.min.css" />
 <style>
 .edition {
-  border-left: 3ex solid #eee;
-  position: relative;
+    border-left: 3ex solid #eee;
+    position: relative;
 }
 span.lg {
-  float: right;
-  font-size: 12px;
-  margin-right: 180px;
+    float: right;
+    font-size: 12px;
+    margin-right: 180px;
 }
 span.ln {
-  font-size: 10px;
-  position: relative;
-  right: 1.5em;
-  padding: 0;
+    font-size: 10px;
+    position: relative;
+    right: 1.5em;
+    padding: 0;
 }
 #id_honeypot {
-  display: none;
+    display: none;
 }
 </style>
 {% endblock %}
@@ -32,53 +33,53 @@ span.ln {
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">
-  <button type="button" class="close" data-dismiss="alert">×</button>
-  {{ message }}
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    {{ message }}
 </div>
 {% endfor %}
 {% endif %}
 {% endblock %}
 
 <div class="page-header">
-  <h1>{{ edition.title }}</h1>
-  <small>by
-    <a href="/edition/author/{{ edition.author }}/">{{ edition.author}}</a>,
-    {{edition.modified }}, {{ edition.status }}
-    {% if edition.classroom %},
-    {{ edition.classroom }}
-    {% endif %}
-  </small>
+    <h1>{{ edition.title }}</h1>
+    <small>by
+        <a href="/edition/author/{{ edition.author }}/">{{ edition.author}}</a>,
+        {{edition.modified }}, {{ edition.status }}
+        {% if edition.classroom %},
+        {{ edition.classroom }}
+        {% endif %}
+    </small>
 
-  {% block actions %}
-  <div class="btn-group pull-right">
-    <a class="btn btn-small" href="edit/">Edit</a>
-    <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="../add/">Add</a></li>
-      <li><a href="delete/">Delete</a></li>
-      <li class="divider"></li>
-      <li><a href="print/" target="_print">Print</a></li>
-    </ul>
-  </div>
-  {% endblock %}
+    {% block actions %}
+    <div class="btn-group pull-right">
+        <a class="btn btn-small" href="edit/">Edit</a>
+        <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="../add/">Add</a></li>
+            <li><a href="delete/">Delete</a></li>
+            <li class="divider"></li>
+            <li><a href="print/" target="_print">Print</a></li>
+        </ul>
+    </div>
+    {% endblock %}
 </div>
 
 <div class="offset1">
-  <div class="edition">
-    {{ edition.text|safe }}
-  </div>
+    <div class="edition">
+        {{ edition.text|safe }}
+    </div>
 </div>
 
 <hr />
 <h3>Tags</h3>
 <ul class="pagination">
-  {% for tag in edition.tags.all %}
-  <li>
-  <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
-  </li>
-  {% endfor %}
+    {% for tag in edition.tags.all %}
+    <li>
+    <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
+    </li>
+    {% endfor %}
 </ul>
 
 <hr />
@@ -92,36 +93,50 @@ span.ln {
 <h4>Post a comment</h4>
 {% get_comment_form for edition as form %}
 <form action="{% comment_form_target %}" class="form-horizontal" method="post">
-  {% csrf_token %}
-  {% for field in form %}
-  {% if field.is_hidden %}
-  {{ field }}
-  {% else %}
-  <div class="control-group {% if field.errors %} error {% endif %}"
-    {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
-    {% if field.field.required %}
-    <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+    {% csrf_token %}
+    {% for field in form %}
+    {% if field.is_hidden %}
+    {{ field }}
     {% else %}
-    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-    {% endif %}
-    <div class="controls">
-      {{ field }}
-      {% if field.errors %}
-      <span class="help-inline">
-        {% for error in field.errors %}
-        {{ error }}
-        {% if not forloop.last %}; {% endif %}
-        {% endfor %}
-      </span>
-      {% endif %}
+    <div class="control-group {% if field.errors %} error {% endif %}"
+        {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        {% if field.field.required %}
+        <label class="control-label" for="id_{{ field.html_name }}"><strong>{{ field.label }}</strong></label>
+        {% else %}
+        <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+        {% endif %}
+        <div class="controls">
+            {{ field }}
+            {% if field.errors %}
+            <span class="help-inline">
+                {% for error in field.errors %}
+                {{ error }}
+                {% if not forloop.last %}; {% endif %}
+                {% endfor %}
+            </span>
+            {% endif %}
+        </div>
     </div>
-  </div>
-  {% endif %}
-  {% endfor %}
-  <div class="form-actions">
-    <button name="post" type="submit" class="btn btn-primary">Post</button>
-    <button name="preview" type="submit" class="btn">Preview</button>
-  </div>
+    {% endif %}
+    {% endfor %}
+    <div class="form-actions">
+        <button name="post" type="submit" class="btn btn-primary">Post</button>
+        <button name="preview" type="submit" class="btn">Preview</button>
+    </div>
 </form>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+{% if user.get_profile == edition.author or user.get_profile == edition.classroom.leader or user.get_profile in edition.classroom.other_leaders %}
+<script src="http://assets.annotateit.org/annotator/v1.2.5/annotator-full.min.js"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+    $('.edition').annotator().annotator('setupPlugins',
+                                        { tokenUrl: '{% url token %}' },
+                                        { Tags: false, Filter: false });
+});
+</script>
 {% endif %}
 {% endblock %}

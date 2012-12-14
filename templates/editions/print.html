@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load comments %}
+{% get_comment_count for edition as comment_count %}.
+
+{% block title %}{{ block.super }} {{ edition.title }}{% endblock %}
+
+{% block extra_style %}
+<style>
+.edition {
+  border-left: 3ex solid #eee;
+  position: relative;
+}
+span.lg {
+  float: right;
+  font-size: 12px;
+  margin-right: 180px;
+}
+span.ln {
+  font-size: 10px;
+  position: relative;
+  right: 1.5em;
+  padding: 0;
+}
+#id_honeypot {
+  display: none;
+}
+</style>
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+{% block messages %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
+
+<div class="page-header">
+  <h1>{{ edition.title }}</h1>
+  <small>by
+    <a href="/edition/author/{{ edition.author }}/">{{ edition.author}}</a>,
+    {{edition.modified }}, {{ edition.status }}
+    {% if edition.classroom %},
+    {{ edition.classroom }}
+    {% endif %}
+  </small>
+</div>
+
+<div class="offset1">
+  <div class="edition">
+    {{ edition.text|safe }}
+  </div>
+</div>
+
+<hr />
+<h3>Tags</h3>
+<ul class="pagination">
+  {% for tag in edition.tags.all %}
+  <li>
+  <a href="/edition/tag/{{ tag }}/">{{ tag }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<hr />
+<h3>Comments</h3>
+{% get_comment_count for edition as comment_count %}
+<small>{{ comment_count }} comments have been posted.</small>
+{% render_comment_list for edition %}
+
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script type="text/javascript">
+$(document).ready(function() {
+    window.focus();
+    window.print();
+});
+</script>
+{% endblock %}
