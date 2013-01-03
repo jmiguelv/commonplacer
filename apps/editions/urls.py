@@ -4,17 +4,15 @@ from django.views.generic import DetailView
 from models import Classroom, Edition
 from views import AuthorEditionListView, \
         ClassroomCreate, ClassroomDelete, ClassroomListView, ClassroomUpdate, \
-        EditionCreate, EditionDelete, EditionListView, EditionUpdate, \
-        TagEditionListView
+        EditionCreate, EditionDelete, EditionDetail, EditionListView, \
+        EditionUpdate, TagEditionListView
 
 urlpatterns = patterns('editions.views',
                        url(r'^$', EditionListView.as_view(),
                            name='edition-list'),
                        url(r'^token/$', 'get_token', name='token'),
                        url(r'^(?P<pk>\d+)/$',
-                           DetailView.as_view(model=Edition,
-                                              template_name='editions/detail.html'),
-                           name='edition-detail'),
+                           EditionDetail.as_view(), name='edition-detail'),
                        url(r'^add/$', login_required(EditionCreate.as_view()),
                            name='edition-add'),
                        url(r'^(?P<pk>\d+)/delete/$',

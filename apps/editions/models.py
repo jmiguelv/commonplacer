@@ -151,3 +151,18 @@ class Edition(models.Model):
             queryset = mine | queryset
 
         return queryset
+
+    def display_annotations(self, user):
+        display = False
+
+        if not user.is_anonymous():
+            profile = user.get_profile()
+
+            if profile == self.author:
+                display = True
+            elif self.classroom:
+                if profile == self.classroom.leader or \
+                   profile in self.classroom.other_leaders.all():
+                    display = True
+
+        return display

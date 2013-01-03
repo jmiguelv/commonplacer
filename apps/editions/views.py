@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from forms import ClassroomForm, EditionForm
 from models import Classroom, Edition
@@ -132,6 +132,18 @@ class EditionDelete(DeleteView):
                 kwargs={'pk': obj.id}))
 
         return response
+
+
+class EditionDetail(DetailView):
+    model = Edition
+    template_name = 'editions/detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(EditionDetail, self).get_context_data(**kwargs)
+        edition = super(EditionDetail, self).get_object()
+        context['display_annotations'] = \
+                edition.display_annotations(self.request.user)
+        return context
 
 
 class EditionUpdate(UpdateView):

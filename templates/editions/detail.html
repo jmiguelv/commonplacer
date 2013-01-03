@@ -29,6 +29,7 @@ span.ln {
 {% endblock %}
 
 {% block content %}
+
 {% block messages %}
 {% if messages %}
 {% for message in messages %}
@@ -129,7 +130,7 @@ span.ln {
 
 {% block js %}
 {{ block.super }}
-{% if user.get_profile == edition.author or user.get_profile == edition.classroom.leader or user.get_profile in edition.classroom.other_leaders %}
+{% if display_annotations %}
 <script src="http://assets.annotateit.org/annotator/v1.2.5/annotator-full.min.js"></script>
 <script type="text/javascript">
 jQuery(function ($) {
